@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Store</string>
+    <string name="loginTvTitutlo">Iniciar sesión</string>
+    <string name="loginTilUsernameHint">Nombre de usuario</string>
+    <string name="loginTilPasswordHint">Contraseña</string>
+    <string name="loginBtnAcceder">Acceder</string>
+    <string name="loginTvOr">O</string>
+    <string name="loginTvNoTienesCuenta">¿No Tienes Cuenta?</string>
+    <string name="loginTvCrearCuenta">Registrate aquí</string>
+</resources>
