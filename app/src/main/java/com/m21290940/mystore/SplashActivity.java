@@ -27,9 +27,10 @@ public class SplashActivity extends AppCompatActivity {
                 new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                         startActivity(intent);
-                        super.onAnimationEnd(animation);
+                        finish();
                     }
                 }
         );
