@@ -1,5 +1,6 @@
 package com.m21290940.mystore.products.productslist;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,25 +28,34 @@ public class ProductsListActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddProductActivity.class);
             startActivity(intent);
         });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProductsListActivity.this);
+                builder .setTitle(R.string.productListAletDialogBackTitle)
+                        .setMessage(R.string.productListAlertDialogBackMessage)
+                        .setNegativeButton(R.string.productListAlertDialogBackNegativeTitle,
+                                (dialog, which) -> {
+                                    finish();
+                                }
+                        )
+                        .setPositiveButton(R.string.productListAlertDialogBackPositiveTitle,
+                                (dialog, which) -> {
+                                    finishAffinity();
+                                }
+                        )
+                        .create()
+                        .show();
+            }
+        };
+
+        getOnBackPressedDispatcher().addCallback(callback);
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         super.onBackPressed();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder .setTitle(R.string.productListAletDialogBackTitle)
-                .setMessage(R.string.productListAlertDialogBackMessage)
-                .setNegativeButton(R.string.productListAlertDialogBackNegativeTitle,
-                        (dialog, which) -> {
-                             finish();
-                        }
-                )
-                .setPositiveButton(R.string.productListAlertDialogBackPositiveTitle,
-                        (dialog, which) -> {
 
-                        }
-                )
-                .create()
-                .show();
-    }
+    }*/
 }
