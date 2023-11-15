@@ -2,19 +2,21 @@ package com.m21290940.mystore.dbmanager.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity( tableName = "users" )
 public class User {
     @PrimaryKey( autoGenerate = true )
-    @ColumnInfo( name = "user_id")
+    @ColumnInfo( name = "user_id" )
     private long _id;
     private String fullname;
 
     private String username;
 
     private String password;
-    @ColumnInfo( name = "user_img")
+
+    @ColumnInfo( name = "user_img" )
     private String photo_uri;
 
     public long get_id() {

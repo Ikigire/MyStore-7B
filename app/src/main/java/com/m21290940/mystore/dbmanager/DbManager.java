@@ -20,7 +20,9 @@ public abstract class DbManager extends RoomDatabase {
 
     public static DbManager getDatabase(Context context) {
         if (database == null) {
-            database = Room.databaseBuilder(context, DbManager.class, "miDb").build();
+            database = Room.databaseBuilder(context, DbManager.class, "miDb")
+                    .allowMainThreadQueries()
+                    .build();
         }
         return database;
     }

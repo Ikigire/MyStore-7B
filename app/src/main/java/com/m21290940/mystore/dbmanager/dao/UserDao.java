@@ -16,18 +16,18 @@ import io.reactivex.rxjava3.core.Single;
 @Dao
 public interface UserDao {
     @Query("SELECT * FROM users")
-    public Single<List<User>> getAllUsers();
+    Single<List<User>> getAllUsers();
 
     @Query("SELECT * FROM users WHERE username == :username AND password == :password")
-    public Single<User> login(String username, String password);
+    Single<User> login(String username, String password);
 
     @Query("SELECT * FROM users WHERE user_id == :id")
-    public Single<User> getUserById(long id);
+    Single<User> getUserById(long id);
 
     @Insert
-    public Completable insertUser(User user);
+    Completable insertUser(User user);
     @Update
-    public Completable updateUser(User user);
+    Completable updateUser(User user);
     @Delete
-    public Completable deleteUser(User user);
+    Completable deleteUser(User user);
 }
