@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +22,16 @@ import com.m21290940.mystore.dbmanager.DbManager;
 import com.m21290940.mystore.dbmanager.dao.UserDao;
 import com.m21290940.mystore.dbmanager.entities.User;
 import com.m21290940.mystore.login.login.LoginActivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.CompletableObserver;
@@ -60,10 +72,46 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        newUser.setPhoto_uri(uriToPhoto.toString());
+        // Obtener el directorio local de la aplicación
+        File filesDir = getApplicationContext().getFilesDir();
 
-        tvImgMessage.setText(R.string.registerTvImgMessageActivo);
-        sivImage.setImageURI(uriToPhoto);
+        // Construir el nombre de archivo a partir de una fecha
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+        String strDate = dateFormat.format(date);
+
+        // Obtener la extensión del archivo
+        String extension = getApplicationContext()
+                .getContentResolver()
+                .getType(uriToPhoto)
+                .split("/")[1];
+
+        // Vamos a crear archivo destino de la imagen
+        final File user_photo = new File( filesDir, strDate+ "." + extension );
+
+        try (
+                final InputStream inputStream = getApplicationContext()
+                        .getContentResolver().openInputStream(uriToPhoto);
+                OutputStream outputStream = new FileOutputStream(user_photo);
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                FileUtils.copy(inputStream, outputStream);
+            } else{
+                Toast.makeText(this, "no se puede copiar archivo de momento", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            Uri img = Uri.parse(user_photo.toString());
+            newUser.setPhoto_uri(img.toString());
+
+            tvImgMessage.setText(R.string.registerTvImgMessageActivo);
+            sivImage.setImageURI(img);
+        } catch (IOException ioe){
+
+        } catch (Exception e) {
+            
+        }
     }
 
     private void initComponents() {
